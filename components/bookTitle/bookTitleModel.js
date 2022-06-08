@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-  bookTitleId: {
+  bookTitleID: {
     type: String,
     required: true,
     unique: true,
@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  categoryId: {
+  categoryID: {
     type: String,
     required: true,
   },
@@ -26,7 +26,7 @@ const schema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  imgUrl: {
+  imageURL: {
     type: String,
     required: true,
   }

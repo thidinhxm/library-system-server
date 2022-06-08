@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-  readerId: {
+  readerID: {
     type: String,
     required: true,
     unique: true,
@@ -22,7 +22,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  dob: {
+  DOB: {
     type: Date,
     required: true,
   },

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-  librarianId: {
+  librarianID: {
     type: String,
     required: true,
     unique: true,
@@ -26,7 +26,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  dob: {
+  DOB: {
     type: Date,
     required: true,
   },

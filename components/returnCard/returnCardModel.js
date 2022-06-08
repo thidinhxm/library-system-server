@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-  returnCardId: {
+  returnCardID: {
     type: String,
     required: true,
     unique: true,
   },
-  borrowCardId: {
+  borrowCardID: {
     type: String,
     required: true,
   },
@@ -14,7 +14,7 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  librarianId: {
+  librarianID: {
     type: String,
     required: true,
   },

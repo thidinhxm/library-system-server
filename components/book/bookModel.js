@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const schema = mongoose.Schema({
-  bookTitleId: {
+  bookTitleID: {
     type: String,
     required: true,
   },
-  No: {
+  no: {
     type: Number,
     required: true,
   },

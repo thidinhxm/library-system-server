@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Book = require('../book/BookModel');
 const schema = mongoose.Schema({
-  borrowCardId: {
+  borrowCardID: {
     type: String,
     required: true,
     unique: true,
@@ -14,11 +14,11 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
-  librarianId: {
+  librarianID: {
     type: String,
     required: true,
   },
-  readerId: {
+  readerID: {
     type: String,
     required: true,
   },
