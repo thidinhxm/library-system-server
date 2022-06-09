@@ -10,6 +10,8 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+}, {
+  collection: 'category'
 });
 
 module.exports = mongoose.model('Category', schema);

@@ -18,6 +18,8 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+}, {
+  collection: 'returnCard'
 });
 
 module.exports = mongoose.model('ReturnCard', schema);

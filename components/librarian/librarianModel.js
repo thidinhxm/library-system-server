@@ -30,6 +30,8 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
+}, {
+  collection: 'librarian'
 });
 
 module.exports = mongoose.model('Librarian', schema);

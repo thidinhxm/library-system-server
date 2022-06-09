@@ -26,6 +26,8 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
+}, {
+  collection: 'reader'
 });
 
 module.exports = mongoose.model('Reader', schema);

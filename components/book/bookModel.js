@@ -13,6 +13,8 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   }
+}, {
+  collection: 'book'
 });
 
 module.exports = mongoose.model('Book', schema);
