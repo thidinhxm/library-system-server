@@ -22,7 +22,8 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  bookBorrowed: [ Book ]
+  // bookBorrowed: [ Book ],
 });
 
-module.exports = mongoose.model('BorrowCard', schema);
+const BorrowCard=  mongoose.model('BorrowCard', new mongoose.Schema(schema, { collection: 'borrowCard' }));
+module.exports = BorrowCard;

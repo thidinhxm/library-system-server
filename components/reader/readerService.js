@@ -28,3 +28,4 @@ exports.deleteReader = async (id, body) => {
   const reader = await Reader.findOneAndDelete({ readerID: id }, body);
   return reader;
 }
+
