@@ -67,7 +67,6 @@ exports.getTour = async (req, res) => {
 };
 exports.updateReader = async (req, res) => {
   try {
-    console.log(req.params.id);
     const reader = await readerSerice.updateReader(req.params.id, req.body)
     res.status(200).json({
       status: 'success',
