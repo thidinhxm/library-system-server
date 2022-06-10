@@ -28,4 +28,5 @@ const schema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('Reader', schema);
+const Reader = mongoose.model('Reader', new mongoose.Schema( schema, { collection: 'reader' }));
+module.exports = Reader
