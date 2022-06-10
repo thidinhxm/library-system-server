@@ -83,14 +83,17 @@ exports.updateReader = async (req, res) => {
 };
 exports.deleteReader = async (req, res) => {
   try {
-    const tour = await Tour.findByIdAndDelete(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const reader = await readerSerice.deleteReader(req.params.id, req.body)
+    if (!reader) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Reader not found',
+      });
+    }
     res.status(200).json({
       status: 'success',
       data: {
-        tour,
+        reader,
       },
     });
   } catch (err) {

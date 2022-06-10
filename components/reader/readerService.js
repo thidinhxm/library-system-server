@@ -20,8 +20,11 @@ exports.createReader = async (body) => {
 }
 
 exports.updateReader = async (id, body) => {
-  const reader = await Reader.findOneAndUpdate({ readerID: id }, body, { new: true });
-  console.log(reader);
+  const reader = await Reader.findOneAndUpdate({ readerID: id }, body, { new: true, runValidators: true, });
   return reader;
 
+}
+exports.deleteReader = async (id, body) => {
+  const reader = await Reader.findOneAndDelete({ readerID: id }, body);
+  return reader;
 }
