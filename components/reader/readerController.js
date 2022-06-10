@@ -3,15 +3,15 @@ const res = require("express/lib/response");
 const readerSerice = require("./readerService");
 
 
-exports.getHistoryBorrow =  (req, res) => {
-  const readerID = req.params.readerID;
-  console.log("readerID: "+readerID);
-  // const historyBorrow = await readerService.getHistoryBorrow(readerID);
+exports.getHistoryBorrow = (req, res) => {
+  const id = req.params.id;
+  console.log("id: " + id);
+  // const historyBorrow = await readerService.getHistoryBorrow(id);
   res.send("historyBorrow");
 }
-exports.getHistoryReturn =  (req, res) => {
-  const readerID = req.params.readerID;
-  // const historyBorrow = await readerService.getHistoryBorrow(readerID);
+exports.getHistoryReturn = (req, res) => {
+  const id = req.params.id;
+  // const historyBorrow = await readerService.getHistoryBorrow(id);
   res.send("getHistoryReturn");
 }
 
@@ -34,9 +34,9 @@ exports.getAllReader = async (req, res) => {
   }
 };
 
-exports.createTour = async (req, res) => {
+exports.createReader = async (req, res) => {
   try {
-    const newTour = await Tour.create(req.body);
+    const newTour = await readerSerice.createReader(req.body);
     res.status(201).json({
       status: 'succees',
       data: newTour,
@@ -65,16 +65,14 @@ exports.getTour = async (req, res) => {
     });
   }
 };
-exports.updateTour = async (req, res) => {
+exports.updateReader = async (req, res) => {
   try {
-    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    console.log(req.params.id);
+    const reader = await readerSerice.updateReader(req.params.id, req.body)
     res.status(200).json({
       status: 'success',
       data: {
-        tour,
+        reader,
       },
     });
   } catch (err) {
@@ -84,7 +82,7 @@ exports.updateTour = async (req, res) => {
     });
   }
 };
-exports.deleteTour = async (req, res) => {
+exports.deleteReader = async (req, res) => {
   try {
     const tour = await Tour.findByIdAndDelete(req.params.id, req.body, {
       new: true,
