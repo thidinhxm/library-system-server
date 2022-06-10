@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const schema = mongoose.Schema({
+const bookSchema = mongoose.Schema({
   bookTitleID: {
     type: String,
     required: true,
@@ -12,7 +12,12 @@ const schema = mongoose.Schema({
   status: {
     type: String,
     required: true,
-  }
+  },
 });
 
-module.exports = mongoose.model('Book', schema);
+const Book = mongoose.model(
+  "Book",
+  new mongoose.Schema(bookSchema, { collection: "book" })
+);
+
+module.exports = { Book, bookSchema };

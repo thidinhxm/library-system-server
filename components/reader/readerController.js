@@ -2,11 +2,12 @@ const res = require("express/lib/response");
 
 const readerSerice = require("./readerService");
 const borrowCardService = require("../borrowCard/borrowCardService");
+const returnCardService = require("../returnCard/returnCardService");
 
-exports.getHistoryBorrow = async (req, res) => {
+exports.getBorrowedHistory = async (req, res) => {
   try {
     const readerID = req.params.id;
-    const historyBorrow = await borrowCardService.getHistoryBorrow(readerID);
+    const historyBorrow = await borrowCardService.getBorrowedHistory(readerID);
     res.status(200).json({
       status: "success",
       results: historyBorrow.length,
@@ -19,10 +20,21 @@ exports.getHistoryBorrow = async (req, res) => {
     });
   }
 };
-exports.getHistoryReturn = (req, res) => {
-  const id = req.params.id;
-  // const historyBorrow = await readerService.getHistoryBorrow(id);
-  res.send("getHistoryReturn");
+exports.getReturnedHistory = async (req, res) => {
+  try {
+    const borrowCardID = req.params.id;
+    const historyReturn = await returnCardService.getReturnedHistory(borrowCardID);
+    res.status(200).json({
+      status: "success",
+      results: historyReturn.length,
+      data: historyReturn,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "fail",
+      message: err,
+    });
+  }
 };
 
 exports.getAllReader = async (req, res) => {

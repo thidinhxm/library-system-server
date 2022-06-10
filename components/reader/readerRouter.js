@@ -15,10 +15,10 @@ router
 
 router
   .route("/:id/borrow-history")
-  .get(readerController.getHistoryBorrow);
+  .get(readerController.getBorrowedHistory);
   
 router
   .route("/:id/return-history")
-  .get(readerController.getHistoryReturn);
+  .get(readerController.getReturnedHistory);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Book = require('../book/BookModel');
+const {Book,bookSchema} = require('../book/BookModel');
 const schema = mongoose.Schema({
   borrowCardID: {
     type: String,
@@ -22,7 +22,7 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  // bookBorrowed: [ Book ],
+  bookBorrowed: [ bookSchema ],
 });
 
 const BorrowCard=  mongoose.model('BorrowCard', new mongoose.Schema(schema, { collection: 'borrowCard' }));
