@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Book = require('../book/BookModel');
+
 const schema = mongoose.Schema({
   borrowCardID: {
     type: String,
@@ -22,9 +22,9 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  bookBorrowed: [Book]
+  bookBorrowed: [ { type: mongoose.Schema.ObjectId, ref: 'Book' } ],
 }, {
-  collection: 'borrowCard'
+  collection: "borrowCard"
 });
 
 module.exports = mongoose.model('BorrowCard', schema);

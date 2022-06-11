@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const schema = mongoose.Schema({
+const bookSchema = mongoose.Schema({
   bookTitleID: {
     type: String,
     required: true,
@@ -14,7 +14,8 @@ const schema = mongoose.Schema({
     required: true,
   }
 }, {
-  collection: 'book'
-});
+  collection: "book"
+}
+);
 
-module.exports = mongoose.model('Book', schema);
+module.exports = mongoose.model("Book", bookSchema);

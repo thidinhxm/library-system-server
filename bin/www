@@ -3,12 +3,12 @@
 /**
  * Module dependencies.
  */
-
+require('dotenv').config();
 const app = require('../app');
 const debug = require('debug')('library-management-server:server');
 const http = require('http');
 const mongoose = require('mongoose');
-require('dotenv').config();
+
 
 /**
  * Get port from environment and store in Express.
