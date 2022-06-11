@@ -1,9 +1,17 @@
 const { Router } = require('express');
+const returnCardController = require('./returnCardController');
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.send('returnCard');
-});
+router
+  .route('/')
+  .get(returnCardController.getAllReturnCard)
+  .post(returnCardController.createReturnCard);
+
+router
+  .route('/:id')
+  .get(returnCardController.getOneReturnCard)
+  .put(returnCardController.updateReturnCard)
+  .delete(returnCardController.deleteReturnCard);
 
 module.exports = router;
