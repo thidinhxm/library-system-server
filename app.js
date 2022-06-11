@@ -3,6 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
+const passport = require('./components/auth/passport');
+
 const authRouter = require('./components/auth/authRouter');
 const bookRouter = require('./components/book/bookRouter');
 const bookTitleRouter = require('./components/bookTitle/bookTitleRouter');
@@ -19,6 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/auth', authRouter);
 app.use('/books', bookRouter);
