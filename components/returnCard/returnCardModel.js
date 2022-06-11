@@ -20,4 +20,6 @@ const schema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('ReturnCard', schema);
+// module.exports = mongoose.model('ReturnCard', schema);
+const ReturnCard =  mongoose.model('ReturnCard', new mongoose.Schema(schema, { collection: 'returnCard' }));
+module.exports = ReturnCard;
