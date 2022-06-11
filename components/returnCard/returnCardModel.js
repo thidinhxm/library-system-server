@@ -18,8 +18,8 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+}, {
+  collection: "returnCard"
 });
 
-// module.exports = mongoose.model('ReturnCard', schema);
-const ReturnCard =  mongoose.model('ReturnCard', new mongoose.Schema(schema, { collection: 'returnCard' }));
-module.exports = ReturnCard;
+module.exports = mongoose.model('ReturnCard', schema);

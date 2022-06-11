@@ -26,7 +26,8 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
+}, {
+  collection: "reader"
 });
 
-const Reader = mongoose.model('Reader', new mongoose.Schema( schema, { collection: 'reader' }));
-module.exports = Reader
+module.exports = mongoose.model('Reader', schema);

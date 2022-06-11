@@ -30,7 +30,8 @@ const schema = new mongoose.Schema({
     type: String,
     required: true,
   }
-
+}, { 
+  collection: "bookTitle" 
 });
 
 module.exports = mongoose.model('BookTitle', schema);
