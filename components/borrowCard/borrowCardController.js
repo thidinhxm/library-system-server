@@ -6,7 +6,6 @@ exports.getBorrowedHistory = (req,res) =>{
     const historyBorrow = borrowCardService.getBorrowedHistory(readerID);
     res.status(200).json({
       status: "success",
-      results: historyBorrow.length,
       data: historyBorrow,
     });
   } catch (err) {
