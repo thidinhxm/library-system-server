@@ -1,9 +1,16 @@
 const { Router } = require('express');
 
+const borrowCardController = require('./borrowCardController');
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.send('borrowCard');
-});
+
+router
+  .route('/:id')
+  .get(borrowCardController.getBorrowedHistory)
+router
+  .route('/top-borrowed-book/:year')
+  .get(borrowCardController.getTop3BorrowedBook)
+
+
 
 module.exports = router;
