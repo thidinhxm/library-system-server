@@ -16,14 +16,15 @@ exports.getBorrowedHistory = (req,res) =>{
   }
 }
 
-exports.getTop3BorrowedBook = async (req,res) =>{
+exports.getTopBorrowedBook = async (req,res) =>{
   try {
-    // const year = req.params.year*1;
-    const top3BorrowedBook = await borrowCardService.getTop3BorrowedBook();
+    const year = req.params.year*1;
+    const amount = req.query.amount*1;
+    const topBorrowedBook = await borrowCardService.getTopBorrowedBook(year,amount);
     res.status(200).json({
       status: "success",
-      results: top3BorrowedBook.length,
-      data: top3BorrowedBook,
+      result: topBorrowedBook.length,
+      data: topBorrowedBook,
     });
   } catch (err) {
     console.log(err);

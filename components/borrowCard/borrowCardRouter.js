@@ -9,7 +9,7 @@ router
   .get(borrowCardController.getBorrowedHistory)
 router
   .route('/top-borrowed-book/:year')
-  .get(borrowCardController.getTop3BorrowedBook)
+  .get(borrowCardController.getTopBorrowedBook)
 
 
 

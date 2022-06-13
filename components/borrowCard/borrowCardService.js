@@ -54,75 +54,22 @@ exports.getBorrowedHistory = async (readerID) => {
   ]);
   return borrowCard;
 }
-// exports.getBorrowedHistory = async (readerID) => {
-//   // const borrowCard = await BorrowCard.find({ readerID: readerID });
-//   const borrowCard = await BorrowCard.aggregate([
-//     { $unwind: "$bookBorrowed" },
-//     { $match: { readerID: readerID } },
-//     {
-//       $group: {
-//         _id: "$bookBorrowed",
-//         createDate: { $first: "$createDate" },
-//         expiredDate: { $first: "$expiredDate" },
-//         librarianID: { $first: "$librarianID" },
-//       }
-//     },
-//     { $set: { bookBorrowed: { $toObjectId: "$_id" } } },
-//     { 
-//       $lookup: {
-//         from: "book",
-//         localField: "bookBorrowed",
-//         foreignField: "_id",
-//         as: "bookTitle_borrowed",
-//       },
 
-//     },
-//     {
-//       $unwind: "$bookTitle_borrowed",
-//     },
-//     {
-//       $lookup: {
-//         from: "bookTitle",
-//         localField: "bookTitle_borrowed.bookTitleID",
-//         foreignField: "bookTitleID",
-//         as: "bookTitle_borrowed",
-//       },
-//     },
-//     {
-//       $unwind: "$bookTitle_borrowed",
-//     },
+exports.getTopBorrowedBook = async (year,amount=3) => {
 
-//     {
-//       $project: {
-//         _id: 1,
-//         borrowCardID: "$_id",
-//         createDate: 1,
-//         expiredDate: "$expiredDate",
-//         librarianID: "$librarianID",
-//         bookName: "$bookTitle_borrowed.bookName",
-//       }
-//     },
-//     {
-//       $group:{
-//         _id: "$borrowCardID",
-//         createDate: { $first: "$createDate" },
-//         expiredDate: { $first: "$expiredDate" },
-//         librarianID: { $first: "$librarianID" },
-//         bookName: { $push: "$bookName" },
-//       }
-//     }
-
-
-//   ]);
-//   return borrowCard;
-// }
-
-
-exports.getTop3BorrowedBook = async () => {
   const popularBook = await BorrowCard.aggregate([
+    {
+      $match:{
+        createDate: {
+          $gte: new Date(`${year}-01-01`),
+          $lte: new Date(`${year}-12-31`),
+      },
+    },
+    },
     {
       $unwind: "$bookBorrowed",
     },
+    
     {
       $group: {
         _id: "$bookBorrowed",
@@ -133,7 +80,7 @@ exports.getTop3BorrowedBook = async () => {
       $sort: { borrowedAmount: -1 }
     },
     {
-      $limit: 3
+      $limit: amount
     },
     { $set: { bookBorrowed: { $toObjectId: "$_id" } } },
     {
@@ -170,5 +117,3 @@ exports.getTop3BorrowedBook = async () => {
   ]);
   return popularBook;
 }
-
-//commit cho vui
