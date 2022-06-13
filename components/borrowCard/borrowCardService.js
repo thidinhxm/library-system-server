@@ -56,7 +56,6 @@ exports.getBorrowedHistory = async (readerID) => {
 }
 
 exports.getTopBorrowedBook = async (year,amount=3) => {
-
   const popularBook = await BorrowCard.aggregate([
     {
       $match:{
@@ -69,7 +68,6 @@ exports.getTopBorrowedBook = async (year,amount=3) => {
     {
       $unwind: "$bookBorrowed",
     },
-    
     {
       $group: {
         _id: "$bookBorrowed",

@@ -19,7 +19,7 @@ exports.getBorrowedHistory = (req,res) =>{
 exports.getTopBorrowedBook = async (req,res) =>{
   try {
     const year = req.params.year*1;
-    const amount = req.query.amount*1;
+    const amount = req.query.amount;
     const topBorrowedBook = await borrowCardService.getTopBorrowedBook(year,amount);
     res.status(200).json({
       status: "success",
