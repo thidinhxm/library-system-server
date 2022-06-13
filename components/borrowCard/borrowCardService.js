@@ -1,7 +1,7 @@
 const BorrowCard = require("./borrowCardModel")
 
 exports.getBorrowedHistory = async (readerID) => {
-  // const borrowCard = await BorrowCard.find({ readerID: readerID });
+  
   const borrowCard = await BorrowCard.aggregate([
     { $match: { readerID: readerID } },
     { $unwind: "$bookBorrowed" },
@@ -114,4 +114,74 @@ exports.getTopBorrowedBook = async (year,amount=3) => {
     }
   ]);
   return popularBook;
+}
+
+exports.getBorrowCard = async (borrowCardID) => {
+  
+  const borrowCard = await BorrowCard.aggregate([
+    { $match: { borrowCardID: borrowCardID } },
+    { $unwind: "$bookBorrowed" },
+
+    { $set: { bookBorrowed: { $toObjectId: "$bookBorrowed" } } },
+    {
+      $lookup: {
+        from: "book",
+        localField: "bookBorrowed",
+        foreignField: "_id",
+        as: "bookTitle_borrowed",
+      },
+    },
+    {
+      $unwind: "$bookTitle_borrowed",
+    },
+    {
+      $lookup: {
+        from: "bookTitle",
+        localField: "bookTitle_borrowed.bookTitleID",
+        foreignField: "bookTitleID",
+        as: "bookTitle_borrowed",
+      },
+    },
+    {
+      $unwind: "$bookTitle_borrowed",
+    },
+
+    {
+      $project: {
+        _id: 1,
+        borrowCardID: "$borrowCardID",
+        createDate: 1,
+        expiredDate: "$expiredDate",
+        librarianID: "$librarianID",
+        bookName: "$bookTitle_borrowed.bookName",
+      }
+    },
+    {
+      $group: {
+        _id: "$borrowCardID",
+        borrowCardID: { $first: "$borrowCardID" },
+        createDate: { $first: "$createDate" },
+        expiredDate: { $first: "$expiredDate" },
+        librarianID: { $first: "$librarianID" },
+        bookName: { $push: "$bookName" },
+      }
+    }
+  ]);
+  return borrowCard;
+}
+
+exports.createBorrowCard = async (body) => {
+  const borrowCard = new BorrowCard(body);
+  const newborrowCard = await borrowCard.save();
+  return newborrowCard;
+}
+
+exports.updateBorrowCard = async (id, body) => {
+  const borrowCard = await BorrowCard.findOneAndUpdate({ borrowCardID: id }, body, { new: true, runValidators: true, });
+  return borrowCard;
+
+}
+exports.deleteBorrowCard = async (id, body) => {
+  const borrowCard = await BorrowCard.findOneAndDelete({ borrowCardID: id }, body);
+  return borrowCard;
 }
