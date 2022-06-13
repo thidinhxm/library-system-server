@@ -21,7 +21,7 @@ exports.createBookTitle = async (body) => {
     }
     const bookTitle = await BookTitleModel.create(data);
 
-    return bookTitle;;
+    return bookTitle;
 }
 
 exports.updateBookTitle = async (bookTitleID, body) => {
