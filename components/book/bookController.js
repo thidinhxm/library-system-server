@@ -11,9 +11,20 @@ exports.getAllBook = async (req, res) => {
     }
 }
 
-exports.getOneBook = async (req, res) => {
+exports.getBookByIDNo = async (req, res) => {
     try {
-        const book = await bookService.getOneBook(req.params.id, req.params.no);
+        const book = await bookService.getBookByIDNo(req.params.id, req.params.no);
+
+        res.status(200).json(book);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+}
+
+exports.getBookByMongoID = async (req, res) => {
+    try {
+        const book = await bookService.getBookByMongoID(req.params.id);
 
         res.status(200).json(book);
     } catch (err) {
@@ -35,7 +46,7 @@ exports.createBook = async (req, res) => {
 
 exports.updateBook = async (req, res) => {
     try {
-        const bookUpdated = await bookService.updateBook(req.params.id, req.params.no);
+        const bookUpdated = await bookService.updateBook(req.params.id, req.params.no, req.body);
 
         res.status(204).json(bookUpdated);
     } catch (err) {

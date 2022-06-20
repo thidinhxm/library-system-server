@@ -10,32 +10,30 @@ exports.getAllReturnCard = async () => {
   return returnCards;
 }
 
-exports.getOneReturnCard = async (returnCardID) => {
+exports.getReturnCardByID = async (returnCardID) => {
   const returnCard = await ReturnCardModel.findOne({ returnCardID });
   return returnCard;
 }
 
-exports.createReturnCard = async (body) => {
-  const returnCardProps = body;
+exports.createReturnCard = async (returnCardObj) => {
   const returnCards = await ReturnCardModel.find({});
-  const returnCardID = (+returnCards[returnCards.length - 1].returnCardID + 1) + '';
+  const returnCardID = (returnCards.length === 0) ? '1' : ((+returnCards[returnCards.length - 1].returnCardID + 1) + '');
 
-  const data = {
+  returnCardObj = {
     returnCardID,
-    ...returnCardProps
+    ...returnCardObj
   };
-  const returnCard = await ReturnCardModel.create(data);
+  const returnCard = await ReturnCardModel.create(returnCardObj);
 
   return returnCard;
 }
 
-exports.updateReturnCard = async (returnCardID, body) => {
-  const returnCardProps = body;
-  const data = {
+exports.updateReturnCard = async (returnCardID, returnCardObj) => {
+  returnCardObj = {
     returnCardID,
-    ...returnCardProps
+    ...returnCardObj
   }
-  const returnCardUpdated = await ReturnCardModel.updateOne({ returnCardID }, data);
+  const returnCardUpdated = await ReturnCardModel.updateOne({ returnCardID }, returnCardObj);
 
   return returnCardUpdated;
 }

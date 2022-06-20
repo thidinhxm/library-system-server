@@ -1,4 +1,6 @@
 const returnCardService = require('./returnCardService');
+const borrowCardService = require('../borrowCard/borrowCardService');
+const bookService = require('../book/bookService');
 
 exports.getAllReturnCard = async (req, res) => {
     try {
@@ -11,9 +13,9 @@ exports.getAllReturnCard = async (req, res) => {
     }
 }
 
-exports.getOneReturnCard = async (req, res) => {
+exports.getReturnCardByID = async (req, res) => {
     try {
-        const returnCard = await returnCardService.getOneReturnCard(req.params.id);
+        const returnCard = await returnCardService.getReturnCardByID(req.params.id);
 
         res.status(200).json(returnCard);
     } catch (err) {
@@ -25,6 +27,11 @@ exports.getOneReturnCard = async (req, res) => {
 exports.createReturnCard = async (req, res) => {
     try {
         const returnCard = await returnCardService.createReturnCard(req.body);
+        const borrowCard = await borrowCardService.getBorrowCardByID(returnCard.borrowCardID);
+        borrowCard.bookBorrowed.forEach(async (_id, index) => {
+            let book = await bookService.getBookByMongoID(_id);
+            await bookService.updateBook(book.bookTitleID, book.no, 'available');
+        });
 
         res.status(201).json(returnCard);
     } catch (err) {

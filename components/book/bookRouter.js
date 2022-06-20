@@ -9,9 +9,13 @@ router
   .post(bookController.createBook);
 
 router
-  .route('/:id')
-  .get(bookController.getOneBook)
+  .route('/:id/:no')
+  .get(bookController.getBookByIDNo)
   .put(bookController.updateBook)
   .delete(bookController.deleteBook);
+
+router
+  .route('/:id')
+  .get(bookController.getBookByMongoID);
 
 module.exports = router;

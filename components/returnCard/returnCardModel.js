@@ -13,6 +13,7 @@ const schema = mongoose.Schema({
   createDate: {
     type: Date,
     required: true,
+    default: Date.now,
   },
   librarianID: {
     type: String,

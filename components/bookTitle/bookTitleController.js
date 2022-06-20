@@ -1,4 +1,5 @@
 const bookTitleService = require('./bookTitleService');
+const bookService = require('../book/bookService');
 
 exports.getAllBookTitle = async (req, res) => {
     try {
@@ -11,9 +12,9 @@ exports.getAllBookTitle = async (req, res) => {
     }
 }
 
-exports.getOneBookTitle = async (req, res) => {
+exports.getBookTitleByID = async (req, res) => {
     try {
-        const bookTitle = await bookTitleService.getOneBookTitle(req.params.id);
+        const bookTitle = await bookTitleService.getBookTitleByID(req.params.id);
 
         res.status(200).json(bookTitle);
     } catch (err) {
@@ -25,6 +26,12 @@ exports.getOneBookTitle = async (req, res) => {
 exports.createBookTitle = async (req, res) => {
     try {
         const bookTitle = await bookTitleService.createBookTitle(req.body);
+        const bookObj = {
+            bookTitleID: bookTitle.bookTitleID
+        };
+        for (let i = 0; i < bookTitle.quantity; ++i) {
+            let book = await bookService.createBook(bookObj);
+        }
 
         res.status(201).json(bookTitle);
     } catch (err) {
@@ -35,7 +42,14 @@ exports.createBookTitle = async (req, res) => {
 
 exports.updateBookTitle = async (req, res) => {
     try {
+        const bookTitle = await bookTitleService.getBookTitleByID(req.params.id);
         const bookTitleUpdated = await bookTitleService.updateBookTitle(req.params.id, req.body);
+        const bookObj = {
+            bookTitleID: bookTitle.bookTitleID
+        };
+        for (let i = bookTitle.quantity; i < req.body.quantity; ++i) {
+            let book = await bookService.createBook(bookObj);
+        }
 
         res.status(204).json(bookTitleUpdated);
     } catch (err) {

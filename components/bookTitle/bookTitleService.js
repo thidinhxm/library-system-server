@@ -5,37 +5,35 @@ exports.getAllBookTitle = async () => {
     return bookTitles;
 }
 
-exports.getOneBookTitle = async (bookTitleID) => {
-    const bookTitle = await BookTitleModel.find({ bookTitleID });
+exports.getBookTitleByID = async (bookTitleID) => {
+    const bookTitle = await BookTitleModel.findOne({ bookTitleID });
     return bookTitle;
 }
 
-exports.createBookTitle = async (body) => {
-    const bookTitleProps = body;
+exports.createBookTitle = async (bookTitleObj) => {
     const bookTitles = await BookTitleModel.find({});
-    const bookTitleID = (+bookTitles[bookTitles.length - 1].bookTitleID + 1) + '';
+    const bookTitleID = (bookTitles.length === 0) ? '1' : ((+bookTitles[bookTitles.length - 1].bookTitleID + 1) + '');
 
-    const data = {
+    bookTitleObj = {
         bookTitleID,
-        ...bookTitleProps
+        ...bookTitleObj
     }
-    const bookTitle = await BookTitleModel.create(data);
+    const bookTitle = await BookTitleModel.create(bookTitleObj);
 
-    return bookTitle;;
+    return bookTitle;
 }
 
-exports.updateBookTitle = async (bookTitleID, body) => {
-    const bookTitleProps = body;
-    const data = {
+exports.updateBookTitle = async (bookTitleID, bookTitleObj) => {
+    bookTitleObj = {
         bookTitleID,
-        ...bookTitleProps
+        ...bookTitleObj
     }
-    const bookTitleUpdated = await BookTitleModel.updateOne({ bookTitleID }, data);
+    const bookTitleUpdated = await BookTitleModel.updateOne({ bookTitleID }, bookTitleObj);
 
     return bookTitleUpdated;
 }
 
-exports.deleteBookTitle = async (categoryID) => {
-    const bookTitleDeleted = await BookTitleModel.deleteOne({ categoryID });
+exports.deleteBookTitle = async (bookTitleID) => {
+    const bookTitleDeleted = await BookTitleModel.deleteOne({ bookTitleID });
     return bookTitleDeleted;
 }

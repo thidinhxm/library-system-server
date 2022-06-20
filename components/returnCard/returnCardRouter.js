@@ -10,7 +10,7 @@ router
 
 router
   .route('/:id')
-  .get(returnCardController.getOneReturnCard)
+  .get(returnCardController.getReturnCardByID)
   .put(returnCardController.updateReturnCard)
   .delete(returnCardController.deleteReturnCard);
 

@@ -9,6 +9,7 @@ const schema = mongoose.Schema({
   createDate: {
     type: Date,
     required: true,
+    default: Date.now,
   },
   expiredDate: {
     type: Date,
