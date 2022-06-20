@@ -10,4 +10,6 @@ router.get('/', (req, res) => {
 router.get('/protected', passport.authenticate('jwt', { session: false }), authController.protected);
 router.post('/loginLibrarian', authController.loginLibrarian);
 
+router.route('/verify/:token').get(authController.verifyEmail);
+
 module.exports = router;

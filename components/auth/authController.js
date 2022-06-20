@@ -43,3 +43,27 @@ exports.protected = (req, res) => {
     }
   });
 }
+
+exports.verifyEmail = async (req, res) => {
+  const { token } = req.params;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  if (!decoded) {
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid token',
+    });
+  }
+  const librarian = await Librarian.findById(decoded.id);
+  if (!librarian) {
+    return res.status(401).json({
+      success: false,
+      message: 'Librarian not found',
+    });
+  }
+  librarian.isValidated = true;
+  await librarian.save();
+  return res.status(200).json({
+    success: true,
+    message: 'Email verified',
+  });
+}
