@@ -11,6 +11,6 @@ router.get('/protected', passport.authenticate('jwt', { session: false }), authC
 router.post('/loginLibrarian', authController.loginLibrarian);
 
 router.route('/verify-reader/:token').get(authController.verifyEmailReader);
-router.route('/verify-reader/:token').get(authController.verifyEmailLibrary);
+router.route('/verify-reader/:token').get(authController.verifyEmailLibrarian);
 
 module.exports = router;
