@@ -37,6 +37,8 @@ exports.getReturnedHistory = async (req, res) => {
   }
 };
 
+
+
 exports.getAllReader = async (req, res) => {
   try {
     const readers = await readerService.getAllReader(req.query);
@@ -69,14 +71,14 @@ exports.createReader = async (req, res) => {
     });
   }
 };
-exports.getTour = async (req, res) => {
+exports.getReader = async (req, res) => {
   try {
-    const tour = await Tour.findById(req.params.id);
+    const reader = await readerService.getReader(req.params.id);
     // const tour = await Tour.findOne({name : req.params.id})
     res.status(200).json({
       status: "success",
       data: {
-        tour,
+        reader,
       },
     });
   } catch (err) {
@@ -85,7 +87,8 @@ exports.getTour = async (req, res) => {
       message: err,
     });
   }
-};
+}
+
 exports.updateReader = async (req, res) => {
   try {
     const reader = await readerService.updateReader(req.params.id, req.body);

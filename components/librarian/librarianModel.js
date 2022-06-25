@@ -13,6 +13,8 @@ const schema = mongoose.Schema({
   username: {
     type: String,
     required: true,
+    unique: true,
+
   },
   password: {
     type: String,
@@ -30,6 +32,13 @@ const schema = mongoose.Schema({
     type: Date,
     required: true,
   },
+  token: {
+    type: String,
+  },
+  isValidated: { 
+    type: Boolean,
+    default: false,
+  }
 }, {
   collection: 'librarian'
 });

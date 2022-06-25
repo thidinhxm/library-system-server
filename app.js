@@ -13,6 +13,7 @@ const categoryRouter = require('./components/category/categoryRouter');
 const librarianRouter = require('./components/librarian/librarianRouter');
 const readerRouter = require('./components/reader/readerRouter');
 const returnCardRouter = require('./components/returnCard/returnCardRouter');
+const utilRouter = require('./components/utils/utilRouter');
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use('/categories', categoryRouter);
 app.use('/librarians', librarianRouter);
 app.use('/readers', readerRouter);
 app.use('/returnCards', returnCardRouter);
+app.use('/send-email', utilRouter);
 
 module.exports = app;

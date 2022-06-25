@@ -1,5 +1,6 @@
 const Reader = require("./readerModel")
 const APIFeatures = require('../utils/apiFeatures');
+const crypto = require('crypto');
 
 exports.getAllReader = async (query) => {
   const feature = new APIFeatures(Reader.find(), query)
@@ -14,7 +15,11 @@ exports.getAllReader = async (query) => {
 }
 
 exports.createReader = async (body) => {
-  const reader = new Reader(body);
+  const data ={
+    ...body,
+    token: crypto.randomBytes(64).toString('hex')
+  }
+  const reader = new Reader(data);
   const newReader = await reader.save();
   return newReader;
 }
@@ -26,6 +31,11 @@ exports.updateReader = async (id, body) => {
 }
 exports.deleteReader = async (id, body) => {
   const reader = await Reader.findOneAndDelete({ readerID: id }, body);
+  return reader;
+}
+
+exports.getReaderByEmail = async (email) => {
+  const reader = await Reader.findOne({ username: email });
   return reader;
 }
 

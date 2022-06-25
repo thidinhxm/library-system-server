@@ -1,9 +1,16 @@
-const { Router } = require('express');
-
+const { Router } = require("express");
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.send('librarian');
-});
+const librarianController = require("./librarianController");
+
+router
+  .route("/")
+  .get(librarianController.getAllLibrarian)
+  .post(librarianController.createLibrarian)
+
+router
+  .route("/:id")
+  .patch(librarianController.updateLibrarian)
+  .delete(librarianController.deleteLibrarian);
 
 module.exports = router;
