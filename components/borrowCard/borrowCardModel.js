@@ -9,6 +9,7 @@ const schema = mongoose.Schema({
   createDate: {
     type: Date,
     required: true,
+    default: Date.now,
   },
   expiredDate: {
     type: Date,
@@ -22,7 +23,10 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  bookBorrowed: [ { type: mongoose.Schema.ObjectId, ref: 'Book' } ],
+  bookBorrowed: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    require: true,
+  },
 }, {
   collection: "borrowCard"
 });

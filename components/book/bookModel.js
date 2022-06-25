@@ -12,6 +12,7 @@ const bookSchema = mongoose.Schema({
   status: {
     type: String,
     required: true,
+    default: 'available',
   }
 }, {
   collection: "book"

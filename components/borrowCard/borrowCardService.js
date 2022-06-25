@@ -1,62 +1,103 @@
-const BorrowCard = require("./borrowCardModel")
+const BorrowCardModel = require("./borrowCardModel");
 
 exports.getBorrowedHistory = async (readerID) => {
-
-  const borrowCard = await BorrowCard.aggregate([
-    { $match: { readerID: readerID } },
-    { $unwind: "$bookBorrowed" },
-
-    { $set: { bookBorrowed: { $toObjectId: "$bookBorrowed" } } },
-    {
-      $lookup: {
-        from: "book",
-        localField: "bookBorrowed",
-        foreignField: "_id",
-        as: "bookTitle_borrowed",
-      },
-
-    },
-    {
-      $unwind: "$bookTitle_borrowed",
-    },
-    {
-      $lookup: {
-        from: "bookTitle",
-        localField: "bookTitle_borrowed.bookTitleID",
-        foreignField: "bookTitleID",
-        as: "bookTitle_borrowed",
-      },
-    },
-    {
-      $unwind: "$bookTitle_borrowed",
-    },
-
-    {
-      $project: {
-        _id: 1,
-        borrowCardID: "$borrowCardID",
-        createDate: 1,
-        expiredDate: "$expiredDate",
-        librarianID: "$librarianID",
-        bookName: "$bookTitle_borrowed.bookName",
-      }
-    },
-    {
-      $group: {
-        _id: "$borrowCardID",
-        borrowCardID: { $first: "$borrowCardID" },
-        createDate: { $first: "$createDate" },
-        expiredDate: { $first: "$expiredDate" },
-        librarianID: { $first: "$librarianID" },
-        bookName: { $push: "$bookName" },
-      }
-    },
-    {
-      $sort: { createDate: -1 }
-    }
-  ]);
+  const borrowCard = await BorrowCardModel.find({ readerID: readerID });
   return borrowCard;
 }
+
+exports.getAllBorrowCard = async () => {
+  const borrowCards = await BorrowCardModel.find({});
+  return borrowCards;
+}
+
+exports.getBorrowCardByID = async (borrowCardID) => {
+  const borrowCard = await BorrowCardModel.findOne({ borrowCardID }).populate('bookBorrowed');
+  return borrowCard;
+}
+
+exports.createBorrowCard = async (borrowCardObj) => {
+  const borrowCards = await BorrowCardModel.find({});
+  const borrowCardID = (borrowCards.length === 0) ? '1' : ((+borrowCards[borrowCards.length - 1].borrowCardID + 1) + '');
+
+  borrowCardObj = {
+    borrowCardID,
+    ...borrowCardObj
+  };
+  const borrowCard = await BorrowCardModel.create(borrowCardObj);
+
+  return borrowCard;
+}
+
+exports.updateBorrowCard = async (borrowCardID, borrowCardObj) => {
+  borrowCardObj = {
+    borrowCardID,
+    ...borrowCardObj
+  };
+  const borrowCardUpdated = await BorrowCardModel.updateOne({ borrowCardID }, borrowCardObj);
+
+  return borrowCardUpdated;
+}
+
+exports.deleteBorrowCard = async (borrowCardID) => {
+  const borrowCardDeleted = await BorrowCardModel.deleteOne({ borrowCardID });
+  return borrowCardDeleted;
+}
+
+//   const borrowCard = await BorrowCard.aggregate([
+//     { $match: { readerID: readerID } },
+//     { $unwind: "$bookBorrowed" },
+
+//     { $set: { bookBorrowed: { $toObjectId: "$bookBorrowed" } } },
+//     {
+//       $lookup: {
+//         from: "book",
+//         localField: "bookBorrowed",
+//         foreignField: "_id",
+//         as: "bookTitle_borrowed",
+//       },
+
+//     },
+//     {
+//       $unwind: "$bookTitle_borrowed",
+//     },
+//     {
+//       $lookup: {
+//         from: "bookTitle",
+//         localField: "bookTitle_borrowed.bookTitleID",
+//         foreignField: "bookTitleID",
+//         as: "bookTitle_borrowed",
+//       },
+//     },
+//     {
+//       $unwind: "$bookTitle_borrowed",
+//     },
+
+//     {
+//       $project: {
+//         _id: 1,
+//         borrowCardID: "$borrowCardID",
+//         createDate: 1,
+//         expiredDate: "$expiredDate",
+//         librarianID: "$librarianID",
+//         bookName: "$bookTitle_borrowed.bookName",
+//       }
+//     },
+//     {
+//       $group: {
+//         _id: "$borrowCardID",
+//         borrowCardID: { $first: "$borrowCardID" },
+//         createDate: { $first: "$createDate" },
+//         expiredDate: { $first: "$expiredDate" },
+//         librarianID: { $first: "$librarianID" },
+//         bookName: { $push: "$bookName" },
+//       }
+//     },
+//     {
+//       $sort: { createDate: -1 }
+//     }
+//   ]);
+//   return borrowCard;
+// }
 
 
 

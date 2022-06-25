@@ -11,9 +11,9 @@ exports.getAllCategory = async (req, res) => {
     }
 }
 
-exports.getOneCategory = async (req, res) => {
+exports.getCategoryByID = async (req, res) => {
     try {
-        const category = await categoryService.getOneCategory(req.params.id);
+        const category = await categoryService.getCategoryByID(req.params.id);
 
         res.status(200).json(category);
     } catch (err) {

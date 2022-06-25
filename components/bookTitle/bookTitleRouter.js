@@ -10,7 +10,7 @@ router
 
 router
   .route('/:id')
-  .get(bookTitleController.getOneBookTitle)
+  .get(bookTitleController.getBookTitleByID)
   .put(bookTitleController.updateBookTitle)
   .delete(bookTitleController.deleteBookTitle);
 

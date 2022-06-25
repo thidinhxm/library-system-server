@@ -5,33 +5,38 @@ exports.getAllBook = async () => {
     return books;
 }
 
-exports.getOneBook = async (bookTitleID, no) => {
-    const book = await BookModel.find({ bookTitleID, no });
+exports.getBookByIDNo = async (bookTitleID, no) => {
+    const book = await BookModel.findOne({ bookTitleID, no });
     return book;
 }
 
-exports.createBook = async (bookTitleID) => {
-    const books = await BookModel.find({ bookTitleID });
-    const no = (+books[books.length - 1].no + 1) + '';
+exports.getBookByMongoID = async (_id) => {
+    const book = await BookModel.findOne({ _id });
+    return book;
+}
 
-    const data = {
+exports.createBook = async (bookObj) => {
+    const { bookTitleID } = bookObj;
+    const books = await BookModel.find({ bookTitleID });
+    const no = (books.length === 0) ? '1' : ((+books[books.length - 1].no + 1) + '');
+
+    bookObj = {
         bookTitleID,
         no,
         status: 'available'
     };
-    const book = await BookModel.create(data);
+    const book = await BookModel.create(bookObj);
 
     return book;
 }
 
-exports.updateBook = async (bookTitleID, no) => {
-    const { status } = req.body;
-    const data = {
+exports.updateBook = async (bookTitleID, no, bookObj) => {
+    bookObj = {
         bookTitleID,
         no,
-        status
+        ...bookObj
     };
-    const bookUpdated = await BookModel.updateOne({ bookTitleID, no }, data);
+    const bookUpdated = await BookModel.updateOne({ bookTitleID, no }, bookObj);
 
     return bookUpdated;
 }
