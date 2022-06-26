@@ -1,17 +1,18 @@
 const { Router } = require("express");
-const router = Router();
-
+const authMiddleware = require("../auth/authMiddleware");
 const readerController = require("./readerController");
+
+const router = Router();
 
 router
   .route("/")
-  .get(readerController.getAllReader)
-  .post(readerController.createReader)
+  .get(authMiddleware.isLibrarian, readerController.getAllReader)
+  .post(authMiddleware.isLibrarian, readerController.createReader)
 
 router
   .route("/:id")
-  .patch(readerController.updateReader)
-  .delete(readerController.deleteReader);
+  .patch(authMiddleware.isLibrarian, readerController.updateReader)
+  .delete(authMiddleware.isLibrarian, readerController.deleteReader);
 
 router
   .route("/:id/borrow-history")

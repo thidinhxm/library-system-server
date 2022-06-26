@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const authMiddleware = require('../auth/authMiddleware');
 const categoryController = require('./categoryController');
 
 const router = Router();
@@ -6,12 +7,12 @@ const router = Router();
 router
   .route('/')
   .get(categoryController.getAllCategory)
-  .post(categoryController.createCategory);
+  .post(authMiddleware.isLibrarian, categoryController.createCategory);
 
 router
   .route('/:id')
   .get(categoryController.getCategoryByID)
-  .put(categoryController.updateCategory)
-  .delete(categoryController.deleteCategory);
+  .put(authMiddleware.isLibrarian, categoryController.updateCategory)
+  .delete(authMiddleware.isLibrarian, categoryController.deleteCategory);
 
 module.exports = router;

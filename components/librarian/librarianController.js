@@ -6,7 +6,6 @@ const librarianService = require("./librarianService");
 exports.getAllLibrarian = async (req, res) => {
   try {
     const readers = await librarianService.getAllLibrarian(req.query);
-
     res.status(200).json({
       status: "success",
       results: readers.length,

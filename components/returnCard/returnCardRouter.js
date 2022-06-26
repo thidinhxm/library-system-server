@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const authMiddleware = require('../auth/authMiddleware');
 const returnCardController = require('./returnCardController');
 
 const router = Router();
@@ -6,12 +7,12 @@ const router = Router();
 router
   .route('/')
   .get(returnCardController.getAllReturnCard)
-  .post(returnCardController.createReturnCard);
+  .post(authMiddleware.isLibrarian, returnCardController.createReturnCard);
 
 router
   .route('/:id')
   .get(returnCardController.getReturnCardByID)
-  .put(returnCardController.updateReturnCard)
-  .delete(returnCardController.deleteReturnCard);
+  .put(authMiddleware.isLibrarian, returnCardController.updateReturnCard)
+  .delete(authMiddleware.isLibrarian, returnCardController.deleteReturnCard);
 
 module.exports = router;

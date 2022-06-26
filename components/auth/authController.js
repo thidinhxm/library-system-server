@@ -13,7 +13,8 @@ exports.loginLibrarian = async (req, res) => {
       message: 'Librarian not found',
     });
   }
-  if (!bcrypt.compareSync(password, librarian.password)) {
+  // if (!bcrypt.compareSync(password, librarian.password)) {
+  if (password !== librarian.password) {
     return res.status(401).json({
       success: false,
       message: 'Wrong password',
@@ -24,6 +25,7 @@ exports.loginLibrarian = async (req, res) => {
     id: librarian._id,
     username: librarian.username,
     role: librarian.role,
+    
   };
 
   const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1d' });
