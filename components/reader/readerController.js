@@ -43,11 +43,7 @@ exports.getAllReader = async (req, res) => {
   try {
     const readers = await readerService.getAllReader(req.query);
 
-    res.status(200).json({
-      status: "success",
-      results: readers.length,
-      data: readers,
-    });
+    res.status(200).json(readers);
   } catch (err) {
     console.log(err);
     res.status(404).json({
@@ -59,11 +55,8 @@ exports.getAllReader = async (req, res) => {
 
 exports.createReader = async (req, res) => {
   try {
-    const newTour = await readerService.createReader(req.body);
-    res.status(201).json({
-      status: "succees",
-      data: newTour,
-    });
+    const reader = await readerService.createReader(req.body);
+    res.status(201).json(reader);
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -74,13 +67,7 @@ exports.createReader = async (req, res) => {
 exports.getReader = async (req, res) => {
   try {
     const reader = await readerService.getReader(req.params.id);
-    // const tour = await Tour.findOne({name : req.params.id})
-    res.status(200).json({
-      status: "success",
-      data: {
-        reader,
-      },
-    });
+    res.status(200).json(reader);
   } catch (err) {
     res.status(404).json({
       status: "fail",
@@ -92,12 +79,7 @@ exports.getReader = async (req, res) => {
 exports.updateReader = async (req, res) => {
   try {
     const reader = await readerService.updateReader(req.params.id, req.body);
-    res.status(200).json({
-      status: "success",
-      data: {
-        reader,
-      },
-    });
+    res.status(200).json(reader);
   } catch (err) {
     res.status(404).json({
       status: "fail",

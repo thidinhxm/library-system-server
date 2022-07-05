@@ -1,5 +1,6 @@
 const BorrowCardModel = require("./borrowCardModel");
-
+const ReaderModel = require("../reader/readerModel");
+const LibrarianModel = require("../librarian/librarianModel");
 exports.getBorrowedHistory = async (readerID) => {
   const borrowCard = await BorrowCardModel.find({ readerID: readerID });
   return borrowCard;
@@ -7,12 +8,28 @@ exports.getBorrowedHistory = async (readerID) => {
 
 exports.getAllBorrowCard = async () => {
   const borrowCards = await BorrowCardModel.find({});
-  return borrowCards;
+  const borrowCardList = await Promise.all(borrowCards.map(async (borrowCard) => {
+    const reader = await ReaderModel.findOne({ readerID: borrowCard.readerID });
+    const librarian = await LibrarianModel.findOne({ librarianID: borrowCard.librarianID });
+    return {
+      ...borrowCard._doc,
+      reader: reader.username,
+      librarian: librarian.username
+    };
+  }));
+  return borrowCardList;
 }
 
 exports.getBorrowCardByID = async (borrowCardID) => {
   const borrowCard = await BorrowCardModel.findOne({ borrowCardID }).populate('bookBorrowed');
-  return borrowCard;
+  const reader = await ReaderModel.findOne({ readerID: borrowCard.readerID });
+  const librarian = await LibrarianModel.findOne({ librarianID: borrowCard.librarianID });
+
+  return {
+    ...borrowCard._doc,
+    reader: reader.username,
+    librarian: librarian.username
+  };
 }
 
 exports.createBorrowCard = async (borrowCardObj) => {

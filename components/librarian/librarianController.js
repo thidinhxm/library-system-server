@@ -5,12 +5,8 @@ const librarianService = require("./librarianService");
 
 exports.getAllLibrarian = async (req, res) => {
   try {
-    const readers = await librarianService.getAllLibrarian(req.query);
-    res.status(200).json({
-      status: "success",
-      results: readers.length,
-      data: readers,
-    });
+    const librarians = await librarianService.getAllLibrarian(req.query);
+    res.status(200).json(librarians);
   } catch (err) {
     console.log(err);
     res.status(404).json({
@@ -22,11 +18,8 @@ exports.getAllLibrarian = async (req, res) => {
 
 exports.createLibrarian = async (req, res) => {
   try {
-    const newTour = await librarianService.createLibrarian(req.body);
-    res.status(201).json({
-      status: "succees",
-      data: newTour,
-    });
+    const librarian = await librarianService.createLibrarian(req.body);
+    res.status(201).json(librarian);
   } catch (err) {
     res.status(400).json({
       status: "fail",
@@ -37,13 +30,8 @@ exports.createLibrarian = async (req, res) => {
 
 exports.updateLibrarian = async (req, res) => {
   try {
-    const reader = await librarianService.updateLibrarian(req.params.id, req.body);
-    res.status(200).json({
-      status: "success",
-      data: {
-        reader,
-      },
-    });
+    const librarian = await librarianService.updateLibrarian(req.params.id, req.body);
+    res.status(200).json(librarian);
   } catch (err) {
     res.status(404).json({
       status: "fail",

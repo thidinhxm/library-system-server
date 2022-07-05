@@ -1,5 +1,5 @@
 const ReturnCardModel = require("./returnCardModel");
-
+const LibrarianModel = require("../librarian/librarianModel");
 exports.getReturnedHistory = async (borrowCardID) => {
   const borrowCard = await ReturnCardModel.find({ borrowCardID: borrowCardID });
   return borrowCard;
@@ -7,12 +7,24 @@ exports.getReturnedHistory = async (borrowCardID) => {
 
 exports.getAllReturnCard = async () => {
   const returnCards = await ReturnCardModel.find({});
-  return returnCards;
+  const returnCardList = await Promise.all(returnCards.map(async (returnCard) => {
+    const reader = await ReaderModel.findOne({ readerID: returnCard.readerID });
+    const librarian = await LibrarianModel.findOne({ librarianID: returnCard.librarianID });
+    return {
+      ...returnCard._doc,
+      librarian: librarian.username
+    };
+  }));
+  return returnCardList;
 }
 
 exports.getReturnCardByID = async (returnCardID) => {
   const returnCard = await ReturnCardModel.findOne({ returnCardID });
-  return returnCard;
+  const librarian = await LibrarianModel.findOne({ librarianID: returnCard.librarianID });
+  return {
+    ...returnCard._doc,
+    librarian: librarian.username
+  };
 }
 
 exports.createReturnCard = async (returnCardObj) => {
