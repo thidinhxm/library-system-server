@@ -8,7 +8,6 @@ exports.getReturnedHistory = async (borrowCardID) => {
 exports.getAllReturnCard = async () => {
   const returnCards = await ReturnCardModel.find({});
   const returnCardList = await Promise.all(returnCards.map(async (returnCard) => {
-    const reader = await ReaderModel.findOne({ readerID: returnCard.readerID });
     const librarian = await LibrarianModel.findOne({ librarianID: returnCard.librarianID });
     return {
       ...returnCard._doc,
