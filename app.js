@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const logger = require('morgan');
+// const logger = require('morgan');
 
 const authRouter = require('./components/auth/authRouter');
 const bookRouter = require('./components/book/bookRouter');
@@ -16,7 +16,7 @@ const utilRouter = require('./components/utils/utilRouter');
 
 const app = express();
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
